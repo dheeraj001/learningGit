@@ -60,3 +60,19 @@
          groups: dheeraj
        - name: root
          groups: root         
+===================================================
+
+---
+ - name: Priting some variable
+   gather_facts: no
+   hosts: all
+   vars: 
+     user: 
+     - user0
+     - user1
+     - user2
+   tasks:
+   - name: Priting
+     debug:
+       msg: "{{ item }}"
+     with_items: "{{ user }}"    
