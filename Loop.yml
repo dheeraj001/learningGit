@@ -41,3 +41,22 @@
        name: "{{ item }}"
        state: started
      loop: "{{ mailserive }}"  
+
+
+==================================================
+--- 
+ - name: Checking User 
+   hosts: all
+   gather_facts: no 
+   become: yes
+   tasks:
+   - name: User exist and are in the correct group
+     user:
+       name: "{{ item.name }}"
+       state: present
+       groups: "{{ item.groups }}"
+     loop:
+       - name: dheeraj
+         groups: dheeraj
+       - name: root
+         groups: root         
