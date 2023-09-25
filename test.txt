@@ -4,4 +4,4 @@ git add .
 git clone https://
 git log --oneline
 git commit -m "message for the coomit"
-
+git revert
