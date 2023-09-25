@@ -8,3 +8,4 @@ git revert
 git --help
 git disco
 git switch -c dev
+git switch dev
