@@ -1,0 +1,43 @@
+---
+ - name: stating service 
+   hosts: all
+   gather_facts: no
+   tasks:
+   - name: Postfix is running 
+     service:
+       name: postfix
+       state: started
+   - name: Devecot is running 
+     service: 
+       name: dovecot
+       state: started    
+ ======================================
+
+--- 
+ - name: Postfix and Devecot is running 
+   hosts: all
+   gather_facts: no 
+   tasks: 
+   - name: Starting both service
+     service:
+       name: "{{ item }}"
+       state: started
+     loop:
+       - postfix
+       - devecot     
+==================================================
+
+---
+ - name: Postfix and Devecot is running 
+   hosts: all
+   gather_facts: no
+   vars: 
+     mailserive:
+     - postfix
+     - devecot 
+   tasks:
+   - name: Starting service
+     service:
+       name: "{{ item }}"
+       state: started
+     loop: "{{ mailserive }}"  
