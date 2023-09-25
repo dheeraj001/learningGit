@@ -1,3 +1,6 @@
 learning Git
 git log
 git add .
+git clone https://
+git log --oneline
+git commit -m "message for the coomit"
