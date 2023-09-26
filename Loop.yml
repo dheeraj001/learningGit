@@ -76,3 +76,25 @@
      debug:
        msg: "{{ item }}"
      with_items: "{{ user }}"    
+==================================================
+---
+ - name: Loop Register tasks
+   hosts: all
+   gather_facts: no 
+   tasks: 
+   - name: Looping echo tasks
+     shell: "echo this is item: {{ item }}"
+     loop:
+      - one
+      - two
+     register: echo_result
+
+   -  name: Show echo_result variable
+      debug:
+        var: echo_result
+
+
+        
+          
+
+           
