@@ -1,0 +1,13 @@
+---
+ - name: Using when condition
+   hosts: all
+   gather_facts: no 
+   become: yes
+   vars:
+     run_my_task: true
+   tasks: 
+     - name: Install httpd
+       yum:
+         name: httpd
+         state: latest
+       when: run_my_task    
