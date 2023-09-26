@@ -93,6 +93,26 @@
       debug:
         var: echo_result
 
+==========================================================
+
+
+--- 
+ - name: Printing loop tasks
+   hosts: all
+   gather_facts: no 
+   tasks: 
+     - name: looping echo tasks
+       shell: " echo this is item: {{ item }}"
+       loop:
+         - one
+         - two
+       register: echo_result
+
+     - name: Printing only the result_output
+       debug:
+         msg: "The standard Output: {{ item.stdout }}"
+       loop: "{{ echo_result['results'] }}"
+
 
         
           
