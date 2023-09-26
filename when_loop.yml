@@ -11,3 +11,59 @@
          name: httpd
          state: latest
        when: run_my_task    
+
+==================================================
+
+---
+ - name: Testing Variable in define demo
+   hosts: all
+   gather_facts: no
+   vars:
+     my_service: httpd 
+   tasks:
+     - name: "{{ my_service }} package is install"
+       yum: 
+         name: "{{ my_service }}"
+       when: my_service is defined  
+
+==================================================
+
+---
+ - name: Demo for "in" keyword
+   hosts: all
+   gather_facts: yes
+   become: yes
+   vars: 
+     support_disto:
+       - Redhat
+       - Feroda
+       - CentOS
+   tasks: 
+   - name: Install httpd using yum,where supported
+     yum:
+       name: httpd
+       state: present
+     when: ansible_distribution in support_disto
+
+
+==========================================================
+
+---
+ - name: Restart httpd when postfix is running 
+   hosts: all
+   gather_facts: no
+   tasks:
+   - name: Checking post-fix service
+     command: /usr/bin/systemctl is-active postfix
+     ignore_errors: yes
+     register: result
+
+   - name: Restart httpd
+     service: 
+       name: httpd
+       state: restarted
+     become: yes  
+     when: result.rc == 0 
+    
+
+     
