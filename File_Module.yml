@@ -1,0 +1,12 @@
+---
+ - name: Tocuh Module
+   hosts: all
+   gather_facts: no 
+   tasks:
+   - name: touch a file and set permissions
+     file:
+       path: /tmp/touchfile 
+       owner: dheeraj
+       group: dheeraj
+       mode: 0640
+       state: touch
