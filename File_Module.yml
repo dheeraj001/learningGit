@@ -72,3 +72,98 @@
      file:
        dest: /home/dheeraj/hellow.txt
        state: absent       
+
+=========================================================
+
+---
+ - name: stat Module
+   hosts: all
+   gather_facts: false
+   tasks: 
+   - name: Verify the checksum of a file
+     stat: 
+       path: /home/dheeraj/my-local-file.txt
+       checksum_algorithm: md5
+     register: result
+
+   - debug:
+       msg:  "The checksum of the file is {{ result.stat.checksum }}" 
+
+
+===============================================================
+
+---
+ - name: Examine the password file 
+   hosts: localhost
+   gather_facts: no
+   tasks:
+   - name: stat /etc/passwd
+     stat: 
+       path: /etc/passwd
+     register: result
+   - name: Display stat result
+     debug: 
+       var: result  
+
+===================================================================
+
+---
+ - name: file sync
+   hosts: all
+   gather_facts: not
+   tasks: 
+   - name: synchronize local file to remote file
+     synchronize:
+       src: /home/dheeraj/ansible/loop/handler.yml
+       dest: /tmp/handler.yml
+
+=====================================================================
+
+---
+ - name: Fetch module to retrive secure log file
+   hosts: all
+   become: yes
+   gather_facts: no 
+   tasks: 
+   - name : Fetch /var/log/secure
+     fetch: 
+       src: /var/log/secure
+       dest: secure-backup
+       flat: no
+========================================================================
+
+---
+ - name: Using copy module
+   hosts: all
+   gather_facts: no 
+   become: yes
+   tasks:
+   - name: Copy a file to managed hosts and set attribute
+     copy: 
+       src: /home/dheeraj/ansible/loop/checksum.yml
+       dest: /tmp/
+       owner: dheeraj
+       group: dheeraj
+       mode: 0644
+===========================================================================
+
+This is the system {{ ansible_facts['fqdn'] }}.
+This is a {{ ansible_facts['distribution'] }} version {{ ansible_facts['distribution_version'] }} system.
+Only use this system with permissions .
+Please report issues to: {{ system_owner }}
+
+=================================================
+--- 
+ - name: configure SoE
+   hosts: all
+   become: yes
+   vars: 
+     system_owner: dheerajnegi@gmail.com
+   tasks:
+   -  name: Configure /etc/motd
+      template:
+        src: motd.j2
+        dest: /etc/motd
+        owner: root
+        group: root
+        mode: 0644   
