@@ -10,3 +10,65 @@
        group: dheeraj
        mode: 0640
        state: touch
+
+=================================================
+---
+ - name: Copy Module
+   hosts: all
+   gather_facts: no 
+   tasks: 
+   - name: copy a file to managed hosts
+     copy:
+       src: handler.yml
+       dest: /tmp/
+       force: no
+=====================================================
+
+---
+ - name: Fetch Module
+   hosts: all
+   gather_facts: no 
+   tasks: 
+   - name: Retrieve files form managed hosts
+     fetch: 
+       src: "/home/dheeraj/my-local-file.txt"
+       dest: "/home/dheeraj/ansible/loop"
+
+=======================================================
+
+---
+ - name: Lineinfile Module
+   hosts: all
+   gather_facts: no 
+   tasks:
+   - name: add a line of text to a file 
+     lineinfile:
+       path: /home/dheeraj/my-local-file.txt
+       line: 'Add this line to the file'
+       state: present
+
+=========================================================
+
+---
+ - name: Block Module
+   hosts: all
+   gather_facts: no 
+   tasks: 
+   - name: Add additional lines to a file
+     blockinfile:
+       path: /home/dheeraj/my-local-file.txt
+       block: |
+         first line is the add block of text
+         Second line in the additional block of text
+       state: present  
+
+=========================================================
+--- 
+ - name: Removing file
+   hosts: all
+   gather_facts: no 
+   tasks: 
+   - name: Make sure a file does not exist on managed hosts
+     file:
+       dest: /home/dheeraj/hellow.txt
+       state: absent       
